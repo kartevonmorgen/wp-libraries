@@ -1,6 +1,6 @@
 # Wordpress Libraries
 
-Extra Libraries for Wordpress
+WP Libraries is a Wordpress Plugin which contains extra helper classes which can be used by other plugins in Wordpress.
 
 Following extras are added:
 - Makes a wrapper around the WP_HTTP class which is compatible with the PSR-7 Api. 
