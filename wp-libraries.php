@@ -38,6 +38,10 @@ require_once( dirname( __FILE__ ) . '/inc/lib/http/class-simple-request.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/http/class-client-interface.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/http/class-wordpress-http-client.php');
 
+// -- OpenStreetMap Nominatim--
+require_once( dirname( __FILE__ ) . '/inc/lib/osm/class-osm-address.php' );
+require_once( dirname( __FILE__ ) . '/inc/lib/osm/class-osm-nominatim.php' );
+
 // -- UI Tools--
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-page.php' );
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-settings-field.php' );

@@ -25,9 +25,14 @@ abstract class UIPage
     $this->_title = $title;
   }
 
+  public function get_capability()
+  {
+    return 'manage_options';;
+  }
+
   public function register()
   {
-    if ( is_admin() )
+    if(is_admin())
     {
       add_action( 'admin_init', array( $this, 'admin_init' ) );
       add_action( 'admin_menu', array( $this, 'admin_menu' ) );
@@ -42,7 +47,7 @@ abstract class UIPage
     {
       add_options_page( $this->get_title(),
                         $this->get_menutitle(),
-                        'manage_options',
+                        $this->get_capability(),
                         $this->get_menuid(),
                         array ($this, 'show_page') );
       return;
@@ -53,7 +58,7 @@ abstract class UIPage
       add_submenu_page( $this->get_parentpage_slug(),
                         $this->get_title(),
                         $this->get_menutitle(),
-                        'manage_options', 
+                        $this->get_capability(),
                         $this->get_menuid(), 
                         array( $this, 'show_page' ));
       return;
@@ -61,7 +66,7 @@ abstract class UIPage
 
     add_menu_page( $this->get_title(),
                    $this->get_menutitle(),
-                   'manage_options', 
+                   $this->get_capability(),
                    $this->get_menuid(), 
                    array( $this, 'show_page' ));
   }
