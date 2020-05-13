@@ -66,11 +66,11 @@ class OsmNominatim
     foreach($xml->children() as $place) 
     {
       $oa = new OsmAddress();
-      $oa->set_streetnumber($place->house_number);
-      $oa->set_street($place->road);
-      $oa->set_town($place->town);
-      $oa->set_postcode($place->postcode);
-      $oa->set_country($place->country);
+      $oa->set_streetnumber((string)$place->house_number);
+      $oa->set_street((string)$place->road);
+      $oa->set_town((string)$place->town);
+      $oa->set_postcode((string)$place->postcode);
+      $oa->set_country((string)$place->country_code);
       foreach($place->Attributes() as $key=>$val)
       {
         if($key == 'lat')
