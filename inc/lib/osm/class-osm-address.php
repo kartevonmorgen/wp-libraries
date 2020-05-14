@@ -6,7 +6,7 @@ class OsmAddress
   private $streetnumber;
   private $postcode;
   private $town;
-  private $country;
+  private $country_code;
   private $lat;
   private $lon;
   
@@ -80,14 +80,14 @@ class OsmAddress
     return $this->town;
   }
 
-  public function set_country($country)
+  public function set_country_code($country_code)
   {
-    $this->country = $country;
+    $this->country_code = $country_code;
   }
 
-  public function get_country()
+  public function get_country_code()
   {
-    return $this->country;
+    return $this->country_code;
   }
 
   public function set_lat($lat)

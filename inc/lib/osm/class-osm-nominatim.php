@@ -35,9 +35,9 @@ class OsmNominatim
       $addressUri .= $osmAddress->get_town();
       $addressUri .=' ';
     }
-    if(!empty($osmAddress->get_country()))
+    if(!empty($osmAddress->get_country_code()))
     {
-      $addressUri .= $osmAddress->get_country();
+      $addressUri .= $osmAddress->get_country_code();
       $addressUri .=' ';
     }
 
@@ -70,7 +70,7 @@ class OsmNominatim
       $oa->set_street((string)$place->road);
       $oa->set_town((string)$place->town);
       $oa->set_postcode((string)$place->postcode);
-      $oa->set_country((string)$place->country_code);
+      $oa->set_country_code((string)$place->country_code);
       foreach($place->Attributes() as $key=>$val)
       {
         if($key == 'lat')
