@@ -37,14 +37,15 @@ class PSR7AdminControl
     $section->set_description(
       'give up an url and test with psr7 wrapper around WP_Http ');
 
-    $section->add_textfield('osm_nominatim_url', 
+    $field = $section->add_textfield('osm_nominatim_url', 
                             'Open Street Map Nominatim URL');
+    $field->set_defaultvalue(OsmNominatim::DEFAULT_URL);
 
     $section->add_textfield('wplib_uri', 
-                            'URL');
+                            'Test URL');
 
     $field = new class('wplib_result', 
-                       'Output from URL') extends UISettingsTextAreaField
+                       'Output from Test URL') extends UISettingsTextAreaField
     {
       public function get_value()
       {

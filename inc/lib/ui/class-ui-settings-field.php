@@ -22,6 +22,7 @@ class UISettingsField
   private $_id;
   private $_register = true;
   private $_values = array();
+  private $_defaultvalue = null;
 
   public function __construct($id, $title)
   {
@@ -36,6 +37,10 @@ class UISettingsField
       $args = array(
             'type' => 'string', 
             'sanitize_callback' => array($this, 'validate'));
+      if(!empty($this->get_defaultvalue()))
+      {
+        $args['default'] = $this->get_defaultvalue(); 
+      }
       register_setting( $group_id, 
                         $this->get_id(), 
                         $args);
@@ -89,6 +94,16 @@ class UISettingsField
   public function is_register()
   {
     return $this->_register;
+  }
+
+  public function set_defaultvalue($defaultvalue)
+  {
+    $this->_defaultvalue = $defaultvalue;
+  }
+
+  public function get_defaultvalue()
+  {
+    return $this->_defaultvalue;
   }
 
   public function get_id()

@@ -2,6 +2,7 @@
 
 class OsmNominatim
 {
+  const DEFAULT_URL = 'https://nominatim.openstreetmap.org';
   private $client;
 
   function __construct()
@@ -11,7 +12,7 @@ class OsmNominatim
 
   function find_by_address($osmAddress)
   {
-    $uri = get_option('osm_nominatim_url');
+    $uri = get_option('osm_nominatim_url', self::DEFAULT_URL);
     $uri .= '/search/';
 
     $addressUri = '';
