@@ -16,35 +16,42 @@ class OsmNominatim
     $uri .= '/search/';
 
     $addressUri = '';
-    if(!empty($osmAddress->get_street()))
+    if(empty($osmAddress->get_street()))
     {
-      $addressUri .= $osmAddress->get_street();
-      $addressUri .=' ';
+      return $osmAddress;
     }
+
+    $addressUri .= $osmAddress->get_street();
+    $addressUri .=' ';
+
     if(!empty($osmAddress->get_streetnumber()))
     {
       $addressUri .= $osmAddress->get_streetnumber();
       $addressUri .=' ';
     }
+
+    if(empty($osmAddress->get_postcode()) &&
+       empty($osmAddress->get_town()))
+    {
+      return $osmAddress;
+    }
+      
     if(!empty($osmAddress->get_postcode()))
     {
       $addressUri .= $osmAddress->get_postcode();
       $addressUri .=' ';
     }
+
     if(!empty($osmAddress->get_town()))
     {
       $addressUri .= $osmAddress->get_town();
       $addressUri .=' ';
     }
+
     if(!empty($osmAddress->get_country_code()))
     {
       $addressUri .= $osmAddress->get_country_code();
       $addressUri .=' ';
-    }
-
-    if(empty($addressUri))
-    {
-      return $osmAddress;
     }
 
     $uri .= trim($addressUri);
