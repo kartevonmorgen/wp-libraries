@@ -10,47 +10,47 @@ class OsmNominatim
     $this->client = new WordpressHttpClient();
   }
 
-  function find_by_address($osmAddress)
+  function fill_location($wpLocation)
   {
     $uri = get_option('osm_nominatim_url', self::DEFAULT_URL);
     $uri .= '/search/';
 
     $addressUri = '';
-    if(empty($osmAddress->get_street()))
+    if(empty($wpLocation->get_street()))
     {
-      return $osmAddress;
+      return $wpLocation;
     }
 
-    $addressUri .= $osmAddress->get_street();
+    $addressUri .= $wpLocation->get_street();
     $addressUri .=' ';
 
-    if(!empty($osmAddress->get_streetnumber()))
+    if(!empty($wpLocation->get_streetnumber()))
     {
-      $addressUri .= $osmAddress->get_streetnumber();
+      $addressUri .= $wpLocation->get_streetnumber();
       $addressUri .=' ';
     }
 
-    if(empty($osmAddress->get_postcode()) &&
-       empty($osmAddress->get_town()))
+    if(empty($wpLocation->get_zip()) &&
+       empty($wpLocation->get_city()))
     {
-      return $osmAddress;
+      return $wpLocation;
     }
       
-    if(!empty($osmAddress->get_postcode()))
+    if(!empty($wpLocation->get_zip()))
     {
-      $addressUri .= $osmAddress->get_postcode();
+      $addressUri .= $wpLocation->get_zip();
       $addressUri .=' ';
     }
 
-    if(!empty($osmAddress->get_town()))
+    if(!empty($wpLocation->get_city()))
     {
-      $addressUri .= $osmAddress->get_town();
+      $addressUri .= $wpLocation->get_city();
       $addressUri .=' ';
     }
 
-    if(!empty($osmAddress->get_country_code()))
+    if(!empty($wpLocation->get_country_code()))
     {
-      $addressUri .= $osmAddress->get_country_code();
+      $addressUri .= $wpLocation->get_country_code();
       $addressUri .=' ';
     }
 
@@ -61,37 +61,63 @@ class OsmNominatim
     $response = $this->client->send($request);
     if( $response->getStatusCode() !== 200 )
     {
-      return $osmAddress;
+      return $wpLocation;
     }
 
     $xmlData = $response->getBody();
     if( empty($xmlData))
     {
-      return $osmAddress;
+      return $wpLocation;
     }
 
     $xml = simplexml_load_string($xmlData);
-    foreach($xml->children() as $place) 
+    if(empty($xml->children()))
     {
-      $oa = new OsmAddress();
-      $oa->set_streetnumber((string)$place->house_number);
-      $oa->set_street((string)$place->road);
-      $oa->set_town((string)$place->town);
-      $oa->set_postcode((string)$place->postcode);
-      $oa->set_country_code((string)$place->country_code);
-      foreach($place->Attributes() as $key=>$val)
-      {
-        if($key == 'lat')
-        {
-          $oa->set_lat((string)$val);
-        }
-        if($key == 'lon')
-        {
-          $oa->set_lon((string)$val);
-        }
-      }
-      return $oa;
+      return $wpLocation;
     }
-    return $osmAddress;
+
+    $place = reset($xml->children());
+    if(empty($place))
+    {
+      return $wpLocation;
+    }
+    
+    if(!empty((string)$place->house_number))
+    {
+      $wpLocation->set_streetnumber((string)$place->house_number);
+    }
+    
+    if(!empty((string)$place->road))
+    {
+      $wpLocation->set_street((string)$place->road);
+    }
+    
+    if(!empty((string)$place->town))
+    {
+      $wpLocation->set_city((string)$place->town);
+    }
+    
+    if(!empty((string)$place->postcode))
+    {
+      $wpLocation->set_zip((string)$place->postcode);
+    }
+    
+    if(!empty((string)$place->country_code))
+    {
+      $wpLocation->set_country_code((string)$place->country_code);
+    }
+
+    foreach($place->Attributes() as $key=>$val)
+    {
+      if($key == 'lat')
+      {
+        $wpLocation->set_lat((string)$val);
+      }
+      if($key == 'lon')
+      {
+        $wpLocation->set_lon((string)$val);
+      }
+    }
+    return $wpLocation;
   }
 }
