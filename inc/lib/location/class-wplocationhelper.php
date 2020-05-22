@@ -22,20 +22,21 @@ class WPLocationHelper
   public function create_from_free_text_format($locationStr)
   {
     $wpLocation = new WpLocation('');
-    echo 'SET LOCATION: ' . $locationStr;
+    //echo 'SET LOCATION: ' . $locationStr;
     $array_location = explode(',', $locationStr);
     
     $is_first = true;
     $after_address = false;
     $after_zip = false;
+    $city_done = false;
     foreach($array_location as $element)
     {
       $element = trim($element);
-      echo 'LOC ELEMENT: ' . $element;
+      //echo 'LOC ELEMENT: ' . $element;
 
       if( $this->is_zip($element))
       {
-        echo 'LOC ELEMENT IS ZIP';
+        //echo 'LOC ELEMENT IS ZIP';
         $this->set_zip( $wpLocation, $element);
         $is_first = false;
         $after_zip = true;
@@ -46,7 +47,7 @@ class WPLocationHelper
       
       if( $this->is_address($element) )
       {
-        echo 'LOC ELEMENT IS ADDRE';
+        //echo 'LOC ELEMENT IS ADDRE';
         $this->set_address( $wpLocation, $element);
         $is_first = false;
         $after_zip = false;
@@ -55,20 +56,22 @@ class WPLocationHelper
       }
 
       // City comes always after address or zip
-      if( ($after_address || $after_zip) 
+      if( (! $city_done) && 
+          ($after_address || $after_zip) 
           && $this->is_city($element))
       {
-        echo 'LOC ELEMENT IS CITY';
+        //echo 'LOC ELEMENT IS CITY';
         $this->set_city( $wpLocation, $element);
         $is_first = false;
         $after_zip = false;
         $after_address = false;
+        $city_done = true;
         continue;
       }
 
       if($is_first)
       {
-        echo 'LOC ELEMENT IS NAME';
+        //echo 'LOC ELEMENT IS NAME';
         $this->set_name( $wpLocation, $element );
         $is_first = false;
       }
@@ -77,20 +80,32 @@ class WPLocationHelper
       $after_address = false;
     }
 
-    if(empty($this->get_name()))
+    if(empty($wpLocation->get_name()))
     {
-      $this->set_name( $wpLocation, $this->get_address());
+      $this->set_name( $wpLocation, 
+                       $this->get_address($wpLocation));
     }
+    return $wpLocation;
   }
 
   public function is_valid($wpLocation)
   {
+    if(empty($wpLocation))
+    {
+      return false;
+    }
+
     if(empty($wpLocation->get_name()))
     {
       return false;
     }
 
-    if(empty($wpLocation->get_address()))
+    if(empty($wpLocation->get_street()))
+    {
+      return false;
+    }
+
+    if(empty($wpLocation->get_streetnumber()))
     {
       return false;
     }
@@ -110,12 +125,12 @@ class WPLocationHelper
 
   private function cleanup_name($input)
   {
-    echo 'INPUT NAME' . $input;
+    //echo 'INPUT NAME' . $input;
     
     $output = $this->cleanup($input,
       '/([0-9A-Za-z_äÄöÖüÜß.\s]+)/');
 
-    echo 'OUTPUT NAME' . $output;
+    //echo 'OUTPUT NAME' . $output;
     return $output;
   }
 
@@ -165,12 +180,12 @@ class WPLocationHelper
 
   private function cleanup_address($input)
   {
-    echo 'INPUT ADDR' . $input;
+    //echo 'INPUT ADDR' . $input;
     
     $output = $this->cleanup( $input, 
                               $this->get_address_pattern());
 
-    echo 'OUTPUT ADDR' . $output;
+    //echo 'OUTPUT ADDR' . $output;
     return $output;
   }
 
@@ -187,12 +202,12 @@ class WPLocationHelper
 
   private function cleanup_streetnumber($input)
   {
-    echo 'INPUT SN' . $input;
+    //echo 'INPUT SN' . $input;
     
     $output = $this->cleanup($input,
       '/([0-9]+)/');
 
-    echo 'OUTPUT SN' . $output;
+    //echo 'OUTPUT SN' . $output;
     return $output;
   }
 
@@ -208,12 +223,12 @@ class WPLocationHelper
 
   private function cleanup_zip($input)
   {
-    echo 'INPUT ZIP' . $input;
+    //echo 'INPUT ZIP' . $input;
     
     $output = $this->cleanup($input,
       '/([0-9]{5})/');
 
-    echo 'OUTPUT ZIP' . $output;
+    //echo 'OUTPUT ZIP' . $output;
     return $output;
   }
 

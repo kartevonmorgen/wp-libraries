@@ -76,47 +76,50 @@ class OsmNominatim
       return $wpLocation;
     }
 
-    $place = reset($xml->children());
-    if(empty($place))
+    foreach($xml->children() as $place)
     {
-      return $wpLocation;
-    }
+      if(empty($place))
+      {
+        return $wpLocation;
+      }
     
-    if(!empty((string)$place->house_number))
-    {
-      $wpLocation->set_streetnumber((string)$place->house_number);
-    }
+      if(!empty((string)$place->house_number))
+      {
+        $wpLocation->set_streetnumber((string)$place->house_number);
+      }
     
-    if(!empty((string)$place->road))
-    {
-      $wpLocation->set_street((string)$place->road);
-    }
+      if(!empty((string)$place->road))
+      {
+        $wpLocation->set_street((string)$place->road);
+      }
     
-    if(!empty((string)$place->town))
-    {
-      $wpLocation->set_city((string)$place->town);
-    }
+      if(!empty((string)$place->town))
+      {
+        $wpLocation->set_city((string)$place->town);
+      }
     
-    if(!empty((string)$place->postcode))
-    {
-      $wpLocation->set_zip((string)$place->postcode);
-    }
+      if(!empty((string)$place->postcode))
+      {
+        $wpLocation->set_zip((string)$place->postcode);
+      }
     
-    if(!empty((string)$place->country_code))
-    {
-      $wpLocation->set_country_code((string)$place->country_code);
-    }
+      if(!empty((string)$place->country_code))
+      {
+        $wpLocation->set_country_code((string)$place->country_code);
+      }
 
-    foreach($place->Attributes() as $key=>$val)
-    {
-      if($key == 'lat')
+      foreach($place->Attributes() as $key=>$val)
       {
-        $wpLocation->set_lat((string)$val);
+        if($key == 'lat')
+        {
+          $wpLocation->set_lat((string)$val);
+        }
+        if($key == 'lon')
+        {
+          $wpLocation->set_lon((string)$val);
+        }
       }
-      if($key == 'lon')
-      {
-        $wpLocation->set_lon((string)$val);
-      }
+      return $wpLocation;
     }
     return $wpLocation;
   }

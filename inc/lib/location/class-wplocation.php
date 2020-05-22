@@ -77,7 +77,7 @@ class WPLocation
 
   public function set_state( $state ) 
   {
-    $this->_state = $this->cleanup($state);
+    $this->_state = $state;
   }
 
   public function get_state() 
@@ -149,6 +149,4 @@ class WPLocation
            $this->get_streetnumber() .
            ' )';
   }
-}
-
 }
