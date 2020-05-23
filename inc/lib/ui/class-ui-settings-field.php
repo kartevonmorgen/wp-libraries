@@ -20,6 +20,7 @@ class UISettingsField
 {
   private $_title;
   private $_id;
+  private $_description;
   private $_register = true;
   private $_values = array();
   private $_defaultvalue = null;
@@ -60,8 +61,13 @@ class UISettingsField
   function show_value()
   {
     $id = $this->get_id();
+    $description = $this->get_description();
     $setting = esc_attr( $this->get_value() );
     echo "<input type='text' name='$id' value='$setting' />";
+    if(!empty($description))
+    {
+      echo "<br/><span><em>$description</em></span>";
+    }
   }
 
   public function get_value()
@@ -94,6 +100,16 @@ class UISettingsField
   public function is_register()
   {
     return $this->_register;
+  }
+
+  public function set_description($description)
+  {
+    $this->_description = $description;
+  }
+
+  public function get_description()
+  {
+    return $this->_description;
   }
 
   public function set_defaultvalue($defaultvalue)
@@ -189,11 +205,16 @@ class UISettingsCheckBoxField extends UISettingsField
   {
     $id = $this->get_id();
     $setting = $this->get_value();
+    $description = $this->get_description();
 	  if($setting) 
     { 
       $checked = ' checked="checked" '; 
     }
 	  echo "<input ".$checked." id='$id' name='$id' type='checkbox' />";
+    if(!empty($description))
+    {
+      echo "<span><em>$description</em></span>";
+    }
   }
 }
 

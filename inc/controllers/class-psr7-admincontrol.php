@@ -38,8 +38,9 @@ class PSR7AdminControl
       'give up an url and test with psr7 wrapper around WP_Http ');
 
     $field = $section->add_textfield('osm_nominatim_url', 
-                            'Open Street Map Nominatim URL');
+                            'OSM Nominatim URL');
     $field->set_defaultvalue(OsmNominatim::DEFAULT_URL);
+    $field->set_description('This URL ist used to fill the coordinates of a location, by getting this information over the Open Street Map Nominatim API');
 
     $section->add_textfield('wplib_uri', 
                             'Test URL');
