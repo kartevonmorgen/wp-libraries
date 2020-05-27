@@ -66,33 +66,14 @@ abstract class SimpleMessage
       $this->assertHeader($header);
       $value = $this->normalizeHeaderValue($value);
       $normalized = strtolower($header);
-      if (isset($this->_headerNames[$normalized])) 
-      {
-        $header = $this->_headerNames[$normalized];
-        $this->_headers[$header] = 
-          array_merge($this->_headers[$header], $value);
-      } 
-      else 
-      {
-        $this->_headerNames[$normalized] = $header;
-        $this->_headers[$header] = $value;
-      }
+      $this->_headerNames[$normalized] = $header;
+      $this->_headers[$header] = $value;
     }
   }
 
-  private function normalizeHeaderValue($value): array
+  private function normalizeHeaderValue($value): string
   {
-    if (!is_array($value)) 
-    {
-      return $this->trimHeaderValues([$value]);
-    }
-
-    if (count($value) === 0) 
-    {
-      throw new InvalidArgumentException('Header value can not be an empty array.');
-    }
-
-    return $this->trimHeaderValues($value);
+    return $this->trimHeaderValue($value);
   }
 
   /**
@@ -108,20 +89,9 @@ abstract class SimpleMessage
    * @return string[] Trimmed header values
    * @see https://tools.ietf.org/html/rfc7230#section-3.2.4
    */
-  private function trimHeaderValues(array $values): array
+  private function trimHeaderValue($value): string
   {
-    return array_map(function ($value) 
-    {
-      if (!is_scalar($value) && null !== $value) 
-      {
-        throw new InvalidArgumentException(sprintf(
-         'Header value must be scalar or null but %s provided.',
-         is_object($value) ? get_class($value) : gettype($value)
-         ));
-      }
-
-      return trim((string) $value, " \t");
-    }, array_values($values));
+    return trim((string) $value, " \t");
   }
 
   /**

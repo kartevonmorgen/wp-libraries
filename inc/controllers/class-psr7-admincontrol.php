@@ -78,16 +78,9 @@ class PSR7AdminControl
     $result .= $resp->getReasonPhrase();
     $result .= '' . PHP_EOL;
     $result .= 'HEADERS: '. PHP_EOL;
-    foreach($resp->getHeaders() as $key => $header)
+    foreach($resp->getHeaders() as $key => $value)
     {
-      $result .= '  [' . $key . ']: '.$header . PHP_EOL;
-      if(is_array($header))
-      {
-        foreach($header as $subkey => $subheader)
-        {
-          $result .= '    [' . $subkey . ']: '.$subheader . PHP_EOL;
-        }
-      }
+      $result .= '  [' . $key . ']: '.$value . PHP_EOL;
     }
     $result .= 'BODY: '. PHP_EOL;
     $result .= $resp->getBody();
