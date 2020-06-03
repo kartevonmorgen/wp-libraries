@@ -71,10 +71,15 @@ abstract class UIModelAdapter
   public function set_disabled($disabled)
   {
     $this->_disabled = $disabled;
+    if($disabled)
+    {
+      echo ' DISABLED (' . $this->get_id() . ') '. $this->_disabled;
+    }
   }
 
   public function is_disabled()
   {
+    //echo ' IS DISABLED (' . $this->get_id() . ') '. $this->_disabled;
     return $this->_disabled;
   }
 
@@ -95,6 +100,11 @@ abstract class UIModelAdapter
 
   public function set_value($value)
   {
+    // If an Item is disabled, we get wrong
+    // values, so we make sure that no updates
+    // will happen then.
+    echo 'SET ('. $this->get_id() . ') VALUE ' . 
+      $value . ' DISABLED ' . $this->is_disabled();
     $this->_value = $value;
   }
 

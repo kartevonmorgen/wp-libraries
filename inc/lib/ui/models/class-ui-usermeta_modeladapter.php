@@ -10,6 +10,7 @@ class UIUserMetaModelAdapter extends UIModelAdapter
       return;
     }
     $value = $this->get_value();
+    echo 'SAVE: ' . $this->get_id() . ' = ' . $value;
     update_user_meta( $user_id, 
                       $this->get_id(),
                       $value);
@@ -32,6 +33,7 @@ class UIUserMetaModelAdapter extends UIModelAdapter
       $value = get_the_author_meta( $this->get_id(), 
                                     $user_id );
     }
+    echo 'LOAD (' . $this->get_id() . ') USER_ID ' . $user_id . ' VALUE ' . $value;
 
     $this->set_value($value);
   }

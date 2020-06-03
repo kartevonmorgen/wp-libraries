@@ -4,7 +4,6 @@ abstract class UIViewAdapter
 {
   private $_id;
   private $_view;
-  private $_disabled;
 
   public function __construct($id)
   {
@@ -51,7 +50,7 @@ abstract class UIViewAdapter
     echo $this->get_id();
   }
 
-  protected function get_value()
+  public function get_value()
   {
     return $this->get_view()->get_value($this->get_id());
   }
@@ -76,7 +75,7 @@ abstract class UIViewAdapter
     return !empty($this->get_description());
   }
 
-  protected function get_description()
+  public function get_description()
   {
     return $this->get_view()->get_description($this->get_id());
   }
@@ -86,27 +85,27 @@ abstract class UIViewAdapter
     echo $this->get_description();
   }
 
-  protected function get_choices()
+  public function get_choices()
   {
     return $this->get_view()->get_choices($this->get_id());
   }
 
-  public function set_disabled($disabled)
+  public function set_disabled($value)
   {
-    $this->_disabled = $disabled;
+    $this->get_view()->set_disabled($this->get_id(), 
+                                    $value);
   }
 
-  protected function is_disabled()
+  public function is_disabled()
   {
-    return $this->_disabled || 
-      $this->get_view()->is_disabled($this->get_id());
+    return $this->get_view()->is_disabled($this->get_id());
   }
 
-  protected function the_disabled()
+  public function the_disabled()
   {
     if( $this->is_disabled())
     {
-      ?>disabled="disabled"<?php
+       echo 'disabled="disabled"';
     }
   }
 }

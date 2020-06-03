@@ -10,17 +10,13 @@ abstract class UIView
     $this->_controller = $controller;
   }
 
-  public function start()
-  {
-    $this->init();
-    $this->show();
-  }
+  public abstract function init();
 
-  protected abstract function init();
-
-  protected function show()
+  public function load()
   {
   }
+
+  public abstract function show();
 
   protected function get_control()
   {
@@ -37,6 +33,18 @@ abstract class UIView
   public function get_viewadapters()
   {
     return $this->_viewadapters;
+  }
+
+  public function get_viewadapter($id)
+  {
+    foreach($this->get_viewadapters() as $va)
+    {
+      if($va->get_id() == $id)
+      {
+        return $va;
+      }
+    }
+    return null;
   }
 
   public function get_value($id)
@@ -62,5 +70,10 @@ abstract class UIView
   public function is_disabled($id)
   {
     return $this->get_control()->is_disabled($id);
+  }
+
+  public function set_disabled($id, $value)
+  {
+    $this->get_control()->set_disabled($id, $value);
   }
 }

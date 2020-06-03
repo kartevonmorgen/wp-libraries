@@ -59,11 +59,15 @@ abstract class UIModel
   {
     foreach($this->get_modeladapters() as $ma)
     {
-      if ( empty( $_POST[$ma->get_id()] ) )
+      if($ma->is_disabled())
       {
         continue;
       }
-      $ma->set_value( $_POST[$ma->get_id()] );
+
+      if ( isset( $_POST[$ma->get_id()] ) )
+      {
+        $ma->set_value( $_POST[$ma->get_id()] );
+      }
     }
 
     $this->update_model();
@@ -103,8 +107,12 @@ abstract class UIModel
 
     foreach($this->get_modeladapters() as $ma)
     {
+      if($ma->is_disabled())
+      {
+        echo 'MA ' . $ma->get_id() . ' is disabled';
+        continue;
+      }
       $ma->save_value();
-//      $ma->set_value('haha');
     }
 
     $this->save_model();
@@ -164,12 +172,22 @@ abstract class UIModel
     return $ma->get_choices();
   }
 
+  public function set_disabled($id, $value)
+  {
+    $ma = $this->get_modeladapter($id);
+    if(empty($ma))
+    {
+      return;
+    }
+    return $ma->set_disabled($value);
+  }
+
   public function is_disabled($id)
   {
     $ma = $this->get_modeladapter($id);
     if(empty($ma))
     {
-      return array();
+      return false;
     }
     return $ma->is_disabled();
   }

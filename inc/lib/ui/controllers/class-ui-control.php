@@ -3,8 +3,9 @@
 abstract class UIControl
 { 
   private $_model;
+  private $_view;
 
-  public function set_model($model)
+  protected function set_model($model)
   {
     $this->_model = $model;
   }
@@ -12,6 +13,16 @@ abstract class UIControl
   protected function get_model()
   {
     return $this->_model;
+  }
+
+  protected function set_view($view)
+  {
+    $this->_view = $view;
+  }
+
+  protected function get_view()
+  {
+    return $this->_view;
   }
 
   public function set_property($key, $value)
@@ -24,6 +35,7 @@ abstract class UIControl
   public function load()
   {
     $this->get_model()->load();
+    $this->get_view()->load();
   }
 
   public function validate($errors)
@@ -59,5 +71,10 @@ abstract class UIControl
   public function is_disabled($id)
   {
     return $this->get_model()->is_disabled($id);
+  }
+
+  public function set_disabled($id, $value)
+  {
+    $this->get_model()->set_disabled($id, $value);
   }
 }
