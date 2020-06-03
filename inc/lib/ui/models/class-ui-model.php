@@ -109,7 +109,6 @@ abstract class UIModel
     {
       if($ma->is_disabled())
       {
-        echo 'MA ' . $ma->get_id() . ' is disabled';
         continue;
       }
       $ma->save_value();
