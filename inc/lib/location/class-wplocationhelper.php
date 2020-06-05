@@ -128,7 +128,7 @@ class WPLocationHelper
     //echo 'INPUT NAME' . $input;
     
     $output = $this->cleanup($input,
-      '/([0-9A-Za-z_äÄöÖüÜß.\s]+)/');
+      '/([0-9A-Za-zäÄöÖüÜß.\s_-]+)/');
 
     //echo 'OUTPUT NAME' . $output;
     return $output;
@@ -175,7 +175,7 @@ class WPLocationHelper
 
   private function get_address_pattern()
   {
-    return '/([A-Za-z_äÄöÖüÜß.\s]+)\s([0-9]+[a-zA-Z]?)/';
+    return '/([A-Za-zäÄöÖüÜß.\s_-]+)\s([0-9]+[a-zA-Z]?)/';
   }
 
   private function cleanup_address($input)
@@ -254,7 +254,7 @@ class WPLocationHelper
 
 
   private function cleanup($input, 
-    $pattern = '/([A-Za-z_äÄöÖüÜß.\s]+)/')
+    $pattern = '/([A-Za-zäÄöÖüÜß.\s_-]+)/')
   {
     if(empty($input))
     {

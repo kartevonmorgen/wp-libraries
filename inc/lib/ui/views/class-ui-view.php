@@ -76,4 +76,15 @@ abstract class UIView
   {
     $this->get_control()->set_disabled($id, $value);
   }
+
+  public function get_backgroundcolor($id)
+  {
+    return $this->get_control()->get_backgroundcolor($id);
+  }
+
+  public function set_backgroundcolor($id, $backgroundcolor)
+  {
+    $this->get_control()->set_backgroundcolor($id, 
+                                        $backgroundcolor);
+  }
 }

@@ -17,7 +17,7 @@ abstract class UIViewAdapter
 
   public function show_field()
   {
-?><input type="text" class="regular-text" name="<?php $this->the_id(); ?>" id="<?php $this->the_id(); ?>" value="<?php $this->the_value(); ?>" <?php $this->the_disabled(); ?>/><?php
+?><input <?php $this->the_style(); ?> type="text" class="regular-text" name="<?php $this->the_id(); ?>" id="<?php $this->the_id(); ?>" value="<?php $this->the_value(); ?>" <?php $this->the_disabled(); ?>/><?php
   }
 
   public function show_description()
@@ -107,5 +107,26 @@ abstract class UIViewAdapter
     {
        echo 'disabled="disabled"';
     }
+  }
+
+  public function get_backgroundcolor()
+  {
+    return $this->get_view()->get_backgroundcolor(
+                                $this->get_id());
+  }
+
+  public function set_backgroundcolor($backgroundcolor)
+  {
+    $this->get_view()->set_backgroundcolor($this->get_id(), 
+                                           $backgroundcolor);
+  }
+
+  public function the_style()
+  {
+    if(empty($this->get_backgroundcolor()))
+    {
+      return;
+    }
+    echo 'style="background-color:' . $this->get_backgroundcolor() . '"';
   }
 }

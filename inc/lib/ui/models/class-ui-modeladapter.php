@@ -9,6 +9,7 @@ abstract class UIModelAdapter
   private $_choices = array();
   private $_disabled = false;
   private $_validate = false;
+  private $_backgroundcolor = null;
 
   private $_model;
 
@@ -88,6 +89,16 @@ abstract class UIModelAdapter
     return $this->_validate;
   }
 
+  public function set_backgroundcolor($backgroundcolor)
+  {
+    $this->_backgroundcolor = $backgroundcolor;
+  }
+
+  public function get_backgroundcolor()
+  {
+    return $this->_backgroundcolor;
+  }
+
   public function get_value()
   {
     return $this->_value;
@@ -95,9 +106,6 @@ abstract class UIModelAdapter
 
   public function set_value($value)
   {
-    // If an Item is disabled, we get wrong
-    // values, so we make sure that no updates
-    // will happen then.
     $this->_value = $value;
   }
 

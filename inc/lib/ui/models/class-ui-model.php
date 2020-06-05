@@ -190,5 +190,26 @@ abstract class UIModel
     }
     return $ma->is_disabled();
   }
+
+  public function set_backgroundcolor($id, $backgroundcolor)
+  {
+    $ma = $this->get_modeladapter($id);
+    if(empty($ma))
+    {
+      return;
+    }
+    $ma->set_backgroundcolor($backgroundcolor);
+  }
+
+  public function get_backgroundcolor($id)
+  {
+    $ma = $this->get_modeladapter($id);
+    if(empty($ma))
+    {
+      return;
+    }
+    return $ma->get_backgroundcolor();
+  }
+
 }
 

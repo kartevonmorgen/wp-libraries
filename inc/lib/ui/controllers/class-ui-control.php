@@ -77,4 +77,15 @@ abstract class UIControl
   {
     $this->get_model()->set_disabled($id, $value);
   }
+
+  public function get_backgroundcolor($id)
+  {
+    return $this->get_model()->get_backgroundcolor($id);
+  }
+
+  public function set_backgroundcolor($id, $backgroundcolor)
+  {
+    $this->get_model()->set_backgroundcolor($id, 
+                                            $backgroundcolor);
+  }
 }

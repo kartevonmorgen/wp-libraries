@@ -10,6 +10,10 @@ class UIUserMetaModelAdapter extends UIModelAdapter
       return;
     }
     $value = $this->get_value();
+    if(empty($value))
+    {
+      $value = '';
+    }
     update_user_meta( $user_id, 
                       $this->get_id(),
                       $value);
