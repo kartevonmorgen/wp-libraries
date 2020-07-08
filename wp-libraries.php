@@ -38,9 +38,10 @@ require_once( dirname( __FILE__ ) . '/inc/lib/http/class-simple-request.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/http/class-client-interface.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/http/class-wordpress-http-client.php');
 
-// -- WPLocation --
-require_once( dirname( __FILE__ ) . '/inc/lib/location/class-wplocation.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/location/class-wplocationhelper.php' );
+// -- WP Helper Classes --
+require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wpinitiative.php' );
+require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wplocation.php' );
+require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wplocationhelper.php' );
 
 // -- OpenStreetMap Nominatim --
 require_once( dirname( __FILE__ ) . '/inc/lib/osm/class-osm-nominatim.php' );
