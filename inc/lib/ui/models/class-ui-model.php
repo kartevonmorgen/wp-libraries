@@ -105,16 +105,27 @@ abstract class UIModel
   {
     $this->update();
 
+    $this->before_save_model();
     foreach($this->get_modeladapters() as $ma)
     {
-      if($ma->is_disabled())
+      if($ma->is_value_changed())
       {
-        continue;
+        $ma->save_value();
       }
-      $ma->save_value();
     }
 
     $this->save_model();
+
+    foreach($this->get_modeladapters() as $ma)
+    {
+      $ma->set_loaded_value($ma->get_value());
+      $ma->set_value_changed(false);
+      $ma->set_value_setted(false);
+    }
+  }
+
+  protected function before_save_model()
+  {
   }
 
   protected function save_model()
@@ -131,6 +142,16 @@ abstract class UIModel
     return $this->_properties[$key];
   }
   
+  public function set_value($id, $value)
+  {
+    $ma = $this->get_modeladapter($id);
+    if(empty($ma))
+    {
+      return;
+    }
+    return $ma->set_value($value);
+  }
+
   public function get_value($id)
   {
     $ma = $this->get_modeladapter($id);
@@ -211,5 +232,14 @@ abstract class UIModel
     return $ma->get_backgroundcolor();
   }
 
+  public function is_value_changed($id)
+  {
+    $ma = $this->get_modeladapter($id);
+    if(empty($ma))
+    {
+      return false;
+    }
+    return $ma->is_value_changed();
+  }
 }
 

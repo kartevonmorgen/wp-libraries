@@ -16,7 +16,7 @@ class WPLocationHelper
   public function fill_by_osm_nominatim($wpLocation)
   {
     $osmN = new OsmNominatim();
-    $osmRet = $osmN->fill_location($wpLocation);
+    return $osmN->fill_location($wpLocation);
   }
     
   public function create_from_free_text_format($locationStr)

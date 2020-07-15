@@ -12,10 +12,16 @@ class WPInitiative
   private $_id;
   private $_name;
   private $_kvm_id;
+  private $_kvm_version;
+  private $_company;
   private $_description;
-  private $_email;
-  private $_phone;
-  private $_website;
+  private $_contact_firstname;
+  private $_contact_lastname;
+  private $_contact_phone;
+  private $_contact_website;
+  private $_contact_email;
+	private $_categories = array();
+	private $_tags = array();
 	private $_location;
   
   public function __construct() 
@@ -52,6 +58,26 @@ class WPInitiative
 		return $this->_kvm_id;
 	}
 
+	public function set_kvm_version( $kvm_version ) 
+  {
+		$this->_kvm_version = $kvm_version;
+	}
+
+	public function get_kvm_version() 
+  {
+		return $this->_kvm_version;
+	}
+
+	public function set_company( $company ) 
+  {
+		$this->_company = $company;
+	}
+
+	public function is_company() 
+  {
+		return $this->_company;
+  }
+
   public function set_description( $description ) 
   {
     $this->_description = $description;
@@ -60,6 +86,104 @@ class WPInitiative
   public function get_description() 
   {
     return $this->_description;
+  }
+
+	public function set_contact_firstname( $contact_firstname ) 
+  {
+		$this->_contact_firstname = $contact_firstname;
+	}
+
+	public function get_contact_firstname() 
+  {
+		return $this->_contact_firstname;
+	}
+
+	public function set_contact_lastname( $contact_lastname ) 
+  {
+		$this->_contact_lastname = $contact_lastname;
+	}
+
+	public function get_contact_lastname() 
+  {
+		return $this->_contact_lastname;
+	}
+
+	public function set_contact_phone( $contact_phone ) 
+  {
+		$this->_contact_phone = $contact_phone;
+	}
+
+	public function get_contact_phone() 
+  {
+		return $this->_contact_phone;
+	}
+
+	public function set_contact_email( $contact_email ) 
+  {
+		$this->_contact_email = $contact_email;
+	}
+
+	public function get_contact_email() 
+  {
+		return $this->_contact_email;
+	}
+
+	public function set_contact_website( $contact_website ) 
+  {
+		$this->_contact_website = $contact_website;
+	}
+
+	public function get_contact_website() 
+  {
+		return $this->_contact_website;
+	}
+
+  /*
+   * Set an array of WPCategory objects
+   */
+	public function set_categories( $categories ) 
+  {
+    $this->_categories = $categories;
+	}
+
+  /*
+   * Add an array of WPCategory objects
+   */
+	public function add_category( $category ) 
+  {
+    array_push($this->_categories, $category);
+	}
+
+  /*
+   * Return an array of WPCategory objects
+   */
+	public function get_categories() 
+  {
+		return $this->_categories;
+	}
+
+  /*
+   * Add an array of WPTag objects
+   */
+	public function add_tag( $tag ) 
+  {
+    array_push($this->_tags, $tag);
+	}
+
+  /*
+   * Set an array of WPTag objects
+   */
+	public function set_tags( $tags ) 
+  {
+    $this->_tags = $tags;
+	}
+
+  /*
+   * Return an array of WPTag objects
+   */
+	public function get_tags() 
+  {
+		return $this->_tags;
   }
 
 	public function set_location( $location ) 
@@ -71,6 +195,7 @@ class WPInitiative
   {
 		return $this->_location;
 	}
+
 
   private function add_line($caption, $value)
   {

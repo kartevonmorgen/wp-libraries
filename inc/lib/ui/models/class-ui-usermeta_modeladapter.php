@@ -37,6 +37,6 @@ class UIUserMetaModelAdapter extends UIModelAdapter
                                     $user_id );
     }
 
-    $this->set_value($value);
+    $this->set_loaded_value($value);
   }
 }

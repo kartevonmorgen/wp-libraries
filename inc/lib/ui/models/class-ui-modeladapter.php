@@ -3,6 +3,9 @@
 abstract class UIModelAdapter
 {
   private $_value;
+  private $_loadedvalue;
+  private $_value_setted;
+  private $_value_changed;
   private $_id;
   private $_title;
   private $_description;
@@ -99,14 +102,53 @@ abstract class UIModelAdapter
     return $this->_backgroundcolor;
   }
 
+  public function set_value_setted($value_setted)
+  {
+    $this->_value_setted = $value_setted;
+  }
+
+  public function is_value_setted()
+  {
+    return $this->_value_setted;
+  }
+
+  public function set_value_changed($value_changed)
+  {
+    $this->_value_changed = $value_changed;
+  }
+
+  public function is_value_changed()
+  {
+    return $this->_value_changed;
+  }
+
   public function get_value()
   {
-    return $this->_value;
+    if($this->is_value_setted())
+    {
+      return $this->_value;
+    }
+    return $this->get_loaded_value();
   }
 
   public function set_value($value)
   {
     $this->_value = $value;
+    $this->set_value_setted(true);
+    if($value != $this->get_loaded_value())
+    {
+      $this->set_value_changed(true);
+    }
+  }
+
+  public function get_loaded_value()
+  {
+    return $this->_loadedvalue;
+  }
+
+  public function set_loaded_value($value)
+  {
+    $this->_loadedvalue = $value;
   }
 
   public abstract function load_value();
