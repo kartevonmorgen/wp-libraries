@@ -10,10 +10,6 @@ class UIUserMetaModelAdapter extends UIModelAdapter
       return;
     }
     $value = $this->get_value();
-    if(empty($value))
-    {
-      $value = '';
-    }
     update_user_meta( $user_id, 
                       $this->get_id(),
                       $value);
@@ -33,8 +29,18 @@ class UIUserMetaModelAdapter extends UIModelAdapter
     }
     else
     {
-      $value = get_the_author_meta( $this->get_id(), 
-                                    $user_id );
+      if ( metadata_exists( 'user', $user_id, $this->get_id() ) ) 
+      {
+        $value = get_the_author_meta( $this->get_id(), 
+                                      $user_id );
+
+      }
+      else
+      {
+        $value = $this->get_default_value();
+        // This forces that the default Value comes into the DB
+        $this->set_value_changed(true);
+      }
     }
 
     $this->set_loaded_value($value);

@@ -3,6 +3,7 @@
 abstract class UIModelAdapter
 {
   private $_value;
+  private $_defaultvalue;
   private $_loadedvalue;
   private $_value_setted;
   private $_value_changed;
@@ -20,6 +21,7 @@ abstract class UIModelAdapter
   {
     $this->_id = $id;
     $this->set_title($title);
+    $this->set_default_value('');
   }
 
   public function get_id()
@@ -139,6 +141,16 @@ abstract class UIModelAdapter
     {
       $this->set_value_changed(true);
     }
+  }
+
+  public function get_default_value()
+  {
+    return $this->_defaultvalue;
+  }
+
+  public function set_default_value($defaultvalue)
+  {
+    $this->_defaultvalue = $defaultvalue;
   }
 
   public function get_loaded_value()

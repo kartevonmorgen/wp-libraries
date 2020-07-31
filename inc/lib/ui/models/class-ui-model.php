@@ -64,10 +64,10 @@ abstract class UIModel
         continue;
       }
 
-      if ( isset( $_POST[$ma->get_id()] ) )
-      {
+      //if ( isset( $_POST[$ma->get_id()] ) )
+      //{
         $ma->set_value( $_POST[$ma->get_id()] );
-      }
+      //}
     }
 
     $this->update_model();
