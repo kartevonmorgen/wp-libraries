@@ -55,12 +55,14 @@ require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-settings-section.php' 
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-settings-page.php' );
 
 // -- UI MVC Tools
+require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-choice.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-modeladapter.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-usermeta_modeladapter.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-model.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-viewadapter.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-textfield.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-checkbox.php');
+require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-combobox.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-view.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/controllers/class-ui-control.php');
 

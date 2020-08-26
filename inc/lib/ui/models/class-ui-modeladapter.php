@@ -64,9 +64,9 @@ abstract class UIModelAdapter
     return $this->_description;
   }
 
-  public function add_choice($choice)
+  public function add_choice($id, $name = null)
   {
-    array_push( $this->_choices, $choice);
+    array_push( $this->_choices, new UIChoice($id, $name));
   }
 
   public function get_choices()
