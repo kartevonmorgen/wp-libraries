@@ -163,6 +163,14 @@ class WPLocationHelper
 
   public function get_address($wpLocation) 
   {
+    if(empty($wpLocation->get_street()))
+    {
+      return null;
+    }
+    if(empty($wpLocation->get_streetnumber()))
+    {
+      return $wpLocation->get_street();
+    }
     return $wpLocation->get_street() . 
            ' ' . 
            $wpLocation->get_streetnumber();
