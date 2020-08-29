@@ -10,6 +10,7 @@
 class WPInitiative 
 {
   private $_id;
+  private $_user_id;
   private $_name;
   private $_kvm_id;
   private $_kvm_version;
@@ -36,6 +37,16 @@ class WPInitiative
 	public function get_id() 
   {
 		return $this->_id;
+	}
+
+	public function set_user_id( $user_id ) 
+  {
+		$this->_user_id = $user_id;
+	}
+
+	public function get_user_id() 
+  {
+		return $this->_user_id;
 	}
 
 	public function set_name( $name ) 

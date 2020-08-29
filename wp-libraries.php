@@ -61,6 +61,7 @@ require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-usermeta_modela
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-model.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-viewadapter.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-textfield.php');
+require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-textarea.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-checkbox.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-combobox.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-view.php');
