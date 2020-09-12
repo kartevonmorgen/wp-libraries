@@ -19,7 +19,7 @@ class WPTag
 		$this->_name = $name;
     if(empty($slug))
     {
-		  $this->_slug = sanitize_title_with_dashes($name);
+		  $this->_slug = sanitize_title($name);
     }
     else
     {
