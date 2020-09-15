@@ -64,6 +64,25 @@ class WPCategory
 		return $this->_slug;
 	}
 
+  public function equals($wpCat)
+  {
+    if(empty($wpCat))
+    {
+      return false;
+    }
+
+    if($this->get_slug() !== $wpCat->get_slug())
+    {
+      return false;
+    }
+
+    if($this->get_name() !== $wpCat->get_name())
+    {
+      return false;
+    }
+    return true;
+  }
+
   public function to_string()
   {
     return ''. $this->_name.' (' . $this->_slug . ')';

@@ -64,6 +64,25 @@ class WPTag
 		return $this->_slug;
 	}
 
+  public function equals($wpTag)
+  {
+    if(empty($wpTag))
+    {
+      return false;
+    }
+
+    if($this->get_slug() !== $wpTag->get_slug())
+    {
+      return false;
+    }
+
+    if($this->get_name() !== $wpTag->get_name())
+    {
+      return false;
+    }
+    return true;
+  }
+
   public function to_string()
   {
     return ''. $this->_name.' (' . $this->_slug . ')';

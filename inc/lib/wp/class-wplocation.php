@@ -139,6 +139,25 @@ class WPLocation
 		return $this->_lat;
 	}
 
+  public function equals($wpLocation)
+  {
+    if(empty($wpLocation))
+    {
+      return false;
+    }
+
+    if($this->get_lon() !== $wpLocation->get_lon())
+    {
+      return false;
+    }
+
+    if($this->get_lat() !== $wpLocation->get_lat())
+    {
+      return false;
+    }
+    return true;
+  }
+
   public function to_string()
   {
     return '' . 
