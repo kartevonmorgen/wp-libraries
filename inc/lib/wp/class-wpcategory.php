@@ -76,10 +76,6 @@ class WPCategory
       return false;
     }
 
-    if($this->get_name() !== $wpCat->get_name())
-    {
-      return false;
-    }
     return true;
   }
 

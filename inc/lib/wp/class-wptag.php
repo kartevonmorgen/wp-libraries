@@ -76,10 +76,6 @@ class WPTag
       return false;
     }
 
-    if($this->get_name() !== $wpTag->get_name())
-    {
-      return false;
-    }
     return true;
   }
 

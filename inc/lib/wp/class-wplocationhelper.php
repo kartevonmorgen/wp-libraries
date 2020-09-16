@@ -260,6 +260,26 @@ class WPLocationHelper
     $wpLocation->set_country_code($this->cleanup($cc));
   }
 
+  public function is_location_empty( $wpLocation )
+  {
+    if(!empty(trim($wpLocation->get_name())))
+    {
+      return false;
+    }
+    if(!empty(trim($wpLocation->get_street())))
+    {
+      return false;
+    }
+    if(!empty(trim($wpLocation->get_zip())))
+    {
+      return false;
+    }
+    if(!empty(trim($wpLocation->get_city())))
+    {
+      return false;
+    }
+    return true;
+  }
 
   private function cleanup($input, 
     $pattern = '/([A-Za-zäÄöÖüÜß.\s_-]+)/')
