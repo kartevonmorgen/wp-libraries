@@ -12,7 +12,7 @@ class LogResult
   private $_result;
   private $_text;
   
-  public function __construct($result, $message) 
+  public function __construct($result, $message = '') 
   {
     $this->_result = result;
     $this->_message = message;
@@ -28,6 +28,11 @@ class LogResult
     return !$this->_result;
   }
 
+  public function set_message($message)
+  {
+    $this->_message = $message;
+  }
+
   public function get_message()
   {
     return $this->_message;
@@ -41,5 +46,21 @@ class LogResult
   public static function false_result($message)
   {
     return new LogResult(false, $message);
+  }
+
+  public static function check($value1, $value2, $prefix)
+  {
+    $result = new LogResult($value1 === $value2);
+    if($result->is_true())
+    {
+      $result->set_message($prefix . ' is equal(' . $value1 
+                             . ', ' . $value2 . ')');
+    }
+    else
+    {
+      $result->set_message($prefix . ' is not equal(' . 
+                             $value1 . ', ' . $value2 . ')');
+    }
+    return $result;
   }
 }
