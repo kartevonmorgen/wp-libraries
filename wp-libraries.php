@@ -31,6 +31,10 @@ define( 'WPLIB_PLUGINS_URL', plugins_url( '', __FILE__ ) );
 // -- Convert text to Image
 require_once( dirname( __FILE__ ) . '/inc/lib/img/tti-text-util.php');
 
+require_once( dirname( __FILE__ ) . '/inc/lib/log/class-abstractlogger.php');
+require_once( dirname( __FILE__ ) . '/inc/lib/log/class-postmetalogger.php');
+require_once( dirname( __FILE__ ) . '/inc/lib/log/class-usermetalogger.php');
+
 // -- Http Wrapper --
 require_once( dirname( __FILE__ ) . '/inc/lib/http/class-message-interface.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/http/class-response-interface.php');
