@@ -14,8 +14,8 @@ class LogResult
   
   public function __construct($result, $message = '') 
   {
-    $this->_result = result;
-    $this->_message = message;
+    $this->_result = $result;
+    $this->_message = $message;
   }
 
   public function is_true()
