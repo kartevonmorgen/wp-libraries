@@ -14,7 +14,7 @@ abstract class AbstractLogger
   private $id;
   private $key;
 
-  public function __construct($id, $key) 
+  public function __construct($key, $id) 
   {
     $this->id = $id;
     $this->key = $key;
