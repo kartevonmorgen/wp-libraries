@@ -52,7 +52,7 @@ class LogResult
   {
     if(empty($value1))
     {
-      $result = new LogResult(empty($value2);
+      $result = new LogResult(empty($value2));
     }
     else
     {
