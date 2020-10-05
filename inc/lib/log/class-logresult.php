@@ -50,7 +50,14 @@ class LogResult
 
   public static function check($value1, $value2, $prefix)
   {
-    $result = new LogResult($value1 === $value2);
+    if(empty($value1))
+    {
+      $result = new LogResult(empty($value2);
+    }
+    else
+    {
+      $result = new LogResult($value1 === $value2);
+    }
     if($result->is_true())
     {
       $result->set_message($prefix . ' is equal(' . $value1 
