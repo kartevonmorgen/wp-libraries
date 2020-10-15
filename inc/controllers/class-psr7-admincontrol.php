@@ -33,10 +33,23 @@ class PSR7AdminControl
   {
     $page = new UISettingsPage('psr7-options', 
                                'WP Libraries');
-    $section = $page->add_section('wplib_section_one', 'Settings');
+    $section = $page->add_section('wplib_section_one', 'Maximal media upload settings');
     $section->set_description(
-      'give up an url and test with psr7 wrapper around WP_Http ');
+      'Enable maximal media upload size and give the value in kBytes');
 
+    $section->add_checkbox('wplib_max_media_uploadenabled', 
+                           'Maximum media upload enabled');
+
+    $field = $section->add_textfield('wplib_max_media_uploadsize', 
+                            'Maximum upload for Media');
+    $field->set_description('Maximum upload size for images, audio and video in kB');
+    $field->set_defaultvalue('500');
+
+
+   
+    $section = $page->add_section('wplib_section_two', 'OSN Nominatm settings');
+    $section->set_description(
+      'Give an url and test with psr7 wrapper around WP_Http ');
     $field = $section->add_textfield('osm_nominatim_url', 
                             'OSM Nominatim URL');
     $field->set_defaultvalue(OsmNominatim::DEFAULT_URL);

@@ -30,6 +30,7 @@ define( 'WPLIB_PLUGINS_URL', plugins_url( '', __FILE__ ) );
 
 // -- Convert text to Image
 require_once( dirname( __FILE__ ) . '/inc/lib/img/tti-text-util.php');
+require_once( dirname( __FILE__ ) . '/inc/lib/img/max_media_upload.php');
 
 require_once( dirname( __FILE__ ) . '/inc/lib/log/class-logresult.php');
 require_once( dirname( __FILE__ ) . '/inc/lib/log/class-abstractlogger.php');

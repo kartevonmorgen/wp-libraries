@@ -16,6 +16,7 @@ class WPInitiative
   private $_kvm_version;
   private $_company;
   private $_description;
+  private $_status;
   private $_contact_firstname;
   private $_contact_lastname;
   private $_contact_phone;
@@ -58,6 +59,17 @@ class WPInitiative
   {
 		return $this->_name;
 	}
+
+	public function set_status( $status ) 
+  {
+		$this->_status = $status;
+	}
+
+	public function get_status() 
+  {
+		return $this->_status;
+	}
+
 
 	public function set_kvm_id( $kvm_id ) 
   {
