@@ -24,6 +24,7 @@ class UIMetaboxField
   private $_register = true;
   private $_values = array();
   private $_defaultvalue = null;
+  private $_disabled = false;
 
   public function __construct($id, $title)
   {
@@ -41,9 +42,10 @@ class UIMetaboxField
     $id = $this->get_id();
     $title = $this->get_title();
     $description = $this->get_description();
+    $disabled_text = $this->get_disabled_text();
     $value = esc_attr( $this->get_value($post) );
     echo "<p>$title</p>";
-    echo "<input type='text' name='$id' value='$value' />";
+    echo "<input type='text' name='$id' value='$value' $disabled_text/>";
     if(!empty($description))
     {
       echo "<br/><span style='font-size:0,8 em'><em>$description</em></span>";
@@ -107,6 +109,26 @@ class UIMetaboxField
   public function get_description()
   {
     return $this->_description;
+  }
+
+  public function set_disabled($disabled)
+  {
+    $this->_disabled = $disabled;
+  }
+
+  public function is_disabled()
+  {
+    return $this->_disabled;
+  }
+
+  public function get_disabled_text()
+  {
+    $disabled_text = '';
+    if($this->is_disabled())
+    {
+      $disabled_text = " disabled='true'";
+    }
+    return $disabled_text;
   }
 
   public function set_defaultvalue($defaultvalue)
@@ -233,9 +255,10 @@ class UIMetaboxTextAreaField extends UIMetaboxField
   {
     $id = $this->get_id();
     $title = $this->get_title();
+    $disabled_text = $this->get_disabled_text();
     $value = esc_attr( $this->get_value($post) );
     echo "<p>$title</p>";
-	  echo "<textarea id='$id' name='$id' rows='20' cols='50' type='textarea'>$value</textarea>";
+	  echo "<textarea id='$id' name='$id' rows='4' cols='50' type='textarea' $disabled_text>$value</textarea>";
 }
   }
 
