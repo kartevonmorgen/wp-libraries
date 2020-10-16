@@ -45,7 +45,7 @@ class UIMetaboxField
     $disabled_text = $this->get_disabled_text();
     $value = esc_attr( $this->get_value($post) );
     echo "<p>$title</p>";
-    echo "<input type='text' name='$id' value='$value' $disabled_text/>";
+    echo "<input style='width:100%' type='text' name='$id' value='$value' $disabled_text/>";
     if(!empty($description))
     {
       echo "<br/><span style='font-size:0,8 em'><em>$description</em></span>";
