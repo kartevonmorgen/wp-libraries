@@ -57,7 +57,12 @@ require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wptag.php' );
 // -- OpenStreetMap Nominatim --
 require_once( dirname( __FILE__ ) . '/inc/lib/osm/class-osm-nominatim.php' );
 
-// -- UI Tools--
+// -- UI Tools Metabox --
+require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-metabox-field.php' );
+require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-metabox.php' );
+
+
+// -- UI Tools Settings --
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-page.php' );
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-settings-field.php' );
 require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-settings-section.php' );
