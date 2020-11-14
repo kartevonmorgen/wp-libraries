@@ -6,7 +6,6 @@ Description: Makes a wrapper araound the WP_HTTP class which is compatible with 
 Version: 1.0
 Author: Sjoerd Takken
 Author URI: https://www.sjoerdscomputerwelten.de/
-Text Domain: wplib
 License: GPL2
 
 This program is free software: you can redistribute it and/or modify
@@ -24,78 +23,79 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+defined('ABSPATH') or die('No script kiddies please!');
 
-define( 'WPLIB_PLUGINS_URL', plugins_url( '', __FILE__ ) );
+include_once( dirname( __FILE__ ) . '/inc/lib/plugin/class-wp-pluginloader.php');
 
-// -- Convert text to Image
-require_once( dirname( __FILE__ ) . '/inc/lib/img/tti-text-util.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/img/max_media_upload.php');
-
-require_once( dirname( __FILE__ ) . '/inc/lib/log/class-logresult.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/log/class-abstractlogger.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/log/class-postmetalogger.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/log/class-usermetalogger.php');
-
-// -- Http Wrapper --
-require_once( dirname( __FILE__ ) . '/inc/lib/http/class-message-interface.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/http/class-response-interface.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/http/class-request-interface.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/http/class-simple-message.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/http/class-simple-response.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/http/class-simple-request.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/http/class-client-interface.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/http/class-wordpress-http-client.php');
-
-// -- WP Helper Classes --
-require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wpinitiative.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wplocation.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wplocationhelper.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wpcategory.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/wp/class-wptag.php' );
-
-// -- OpenStreetMap Nominatim --
-require_once( dirname( __FILE__ ) . '/inc/lib/osm/class-osm-nominatim.php' );
-
-// -- UI Tools Metabox --
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-metabox-field.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-metabox.php' );
-
-
-// -- UI Tools Settings --
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-page.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-settings-field.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-settings-section.php' );
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/class-ui-settings-page.php' );
-
-// -- UI MVC Tools
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-choice.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-modeladapter.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-usermeta_modeladapter.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/models/class-ui-model.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-viewadapter.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-textfield.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-textarea.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-checkbox.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-va-combobox.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/views/class-ui-view.php');
-require_once( dirname( __FILE__ ) . '/inc/lib/ui/controllers/class-ui-control.php');
-
-
-// -- Controllers --
-require_once( dirname( __FILE__ ) . '/inc/controllers/class-psr7-admincontrol.php' );
-
-$adminControl = PSR7AdminControl::get_instance();
-$adminControl->start();
-
-if ( ! function_exists( 'wplib_load_textdomain' ) ) 
+class WPLibrariesPluginLoader extends WPPluginLoader
 {
-  /**
-   * Load in any language files that we have setup
-   */
-  function wplib_load_textdomain() 
+  public function init()
   {
-    load_plugin_textdomain( 'wplib', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+    //Add txt to Image
+    $this->add_include('/inc/lib/img/tti-text-util.php');
+    $this->add_include('/inc/lib/img/max_media_upload.php');
+    $this->add_include('/inc/lib/log/class-logresult.php');
+    $this->add_include('/inc/lib/log/class-abstractlogger.php');
+    $this->add_include('/inc/lib/log/class-postmetalogger.php');
+    $this->add_include('/inc/lib/log/class-usermetalogger.php');
+
+    // -- Http Wrapper --
+    $this->add_include('/inc/lib/http/class-message-interface.php');
+    $this->add_include('/inc/lib/http/class-response-interface.php');
+    $this->add_include('/inc/lib/http/class-request-interface.php');
+    $this->add_include('/inc/lib/http/class-simple-message.php');
+    $this->add_include('/inc/lib/http/class-simple-response.php');
+    $this->add_include('/inc/lib/http/class-simple-request.php');
+    $this->add_include('/inc/lib/http/class-client-interface.php');
+    $this->add_include('/inc/lib/http/class-wordpress-http-client.php');
+
+    // -- WP Helper Classes --
+    $this->add_include('/inc/lib/wp/class-wpinitiative.php' );
+    $this->add_include('/inc/lib/wp/class-wplocation.php' );
+    $this->add_include('/inc/lib/wp/class-wplocationhelper.php' );
+    $this->add_include('/inc/lib/wp/class-wpcategory.php' );
+    $this->add_include('/inc/lib/wp/class-wptag.php' );
+
+    // -- OpenStreetMap Nominatim --
+    $this->add_include('/inc/lib/osm/class-osm-nominatim.php' );
+
+    // -- UI Tools Metabox --
+    $this->add_include('/inc/lib/ui/class-ui-metabox-field.php' );
+    $this->add_include('/inc/lib/ui/class-ui-metabox.php' );
+
+
+    // -- UI Tools Settings --
+    $this->add_include('/inc/lib/ui/class-ui-page.php' );
+    $this->add_include('/inc/lib/ui/class-ui-settings-field.php' );
+    $this->add_include('/inc/lib/ui/class-ui-settings-section.php' );
+    $this->add_include('/inc/lib/ui/class-ui-settings-page.php' );
+
+    // -- UI MVC Tools
+    $this->add_include('/inc/lib/ui/models/class-ui-choice.php');
+    $this->add_include('/inc/lib/ui/models/class-ui-modeladapter.php');
+    $this->add_include('/inc/lib/ui/models/class-ui-usermeta_modeladapter.php');
+    $this->add_include('/inc/lib/ui/models/class-ui-model.php');
+    $this->add_include('/inc/lib/ui/views/class-ui-viewadapter.php');
+    $this->add_include('/inc/lib/ui/views/class-ui-va-textfield.php');
+    $this->add_include('/inc/lib/ui/views/class-ui-va-textarea.php');
+    $this->add_include('/inc/lib/ui/views/class-ui-va-checkbox.php');
+    $this->add_include('/inc/lib/ui/views/class-ui-va-combobox.php');
+    $this->add_include('/inc/lib/ui/views/class-ui-view.php');
+    $this->add_include('/inc/lib/ui/controllers/class-ui-control.php');
+
+
+    // -- Controllers --
+    $this->add_include('/inc/controllers/class-psr7-admincontrol.php' );
   }
-  add_action( 'plugins_loaded', 'wplib_load_textdomain' );
+
+  public function start()
+  {
+    $this->add_starter( new PSR7AdminControl());
+  }
 }
+
+$loader = new WPLibrariesPluginLoader();
+$loader->register( __FILE__ , 10);
+
+
+

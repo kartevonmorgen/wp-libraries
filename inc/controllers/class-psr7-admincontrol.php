@@ -8,27 +8,8 @@
  * @copyright  No Copyright.
  * @license    GNU/GPLv2, see https://www.gnu.org/licenses/gpl-2.0.html
  */
-class PSR7AdminControl 
+class PSR7AdminControl extends WPPluginStarter
 {
-  private static $instance = null;
-
-  private function __construct() 
-  {
-  }
-
-  /** 
-   * The object is created from within the class itself
-   * only if the class has no instance.
-   */
-  public static function get_instance()
-  {
-    if (self::$instance == null)
-    {
-      self::$instance = new PSR7AdminControl();
-    }
-    return self::$instance;
-  }
-
   public function start() 
   {
     $page = new UISettingsPage('psr7-options', 

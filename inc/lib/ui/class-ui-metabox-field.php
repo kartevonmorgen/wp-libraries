@@ -25,6 +25,7 @@ class UIMetaboxField
   private $_values = array();
   private $_defaultvalue = null;
   private $_disabled = false;
+  private $_escape_html = true;
 
   public function __construct($id, $title)
   {
@@ -43,7 +44,11 @@ class UIMetaboxField
     $title = $this->get_title();
     $description = $this->get_description();
     $disabled_text = $this->get_disabled_text();
-    $value = esc_attr( $this->get_value($post) );
+    $value = $this->get_value($post);
+    if($this->is_escape_html())
+    {
+      $value = esc_attr( $value );
+    }
     echo "<p>$title</p>";
     echo "<input style='width:100%' type='text' name='$id' value='$value' $disabled_text/>";
     if(!empty($description))
@@ -93,7 +98,11 @@ class UIMetaboxField
 
     if ( isset( $_POST[$this->get_id()] ) )
     {
-      $value = sanitize_text_field( $_POST[$this->get_id()] );
+      $value = $_POST[$this->get_id()];
+      if($this->is_escape_html())
+      {
+        $value = sanitize_text_field( $value );
+      }
       update_post_meta( $post_id, 
                         $this->get_id(), 
                         $value );
@@ -149,6 +158,16 @@ class UIMetaboxField
   public function get_title()
   {
     return $this->_title;
+  }
+
+  public function set_escape_html($escape_html)
+  {
+    $this->_escape_html = $escape_html;
+  }
+
+  public function is_escape_html()
+  {
+    return $this->_escape_html;
   }
 
 }
