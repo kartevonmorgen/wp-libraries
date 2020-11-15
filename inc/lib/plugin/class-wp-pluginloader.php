@@ -28,6 +28,8 @@ abstract class WPPluginLoader
                             array($this, 'do_deactivate'));
     register_uninstall_hook( $plugin, 
                              array( $this, 'do_uninstall'));
+    $col = WPPluginLoaderCollection::get_instance();
+    $col->add_loader($this);
   }
 
   public function get_plugin_dir()
@@ -35,9 +37,21 @@ abstract class WPPluginLoader
     return plugin_dir_path($this->get_plugin());
   }
 
+  public function get_plugin_id()
+  {
+    return plugin_basename($this->get_plugin());
+  }
+
   public function get_plugin()
   {
     return $this->_plugin;
+  }
+
+  public function get_plugin_name()
+  {
+    $id = $this->get_plugin_id();
+    $pos = strpos($id, '/');
+    return substr($id, 0 , $pos);
   }
 
   public function add_include($include)
@@ -166,15 +180,6 @@ abstract class WPPluginLoader
   public function do_activate()
   {
     $this->init();
-    if( !$this->are_dependencies_loaded() )
-    {
-      echo 'Abhängige Plugins ( ' .
-        $this->get_dependencies_info() .
-        ' ) sind nicht anwesend';
-      exit;
-    }
-
-    $this->load_includes();
 
     if(!$this->are_dependencies_active() )
     {
@@ -184,6 +189,8 @@ abstract class WPPluginLoader
       exit;
     }
 
+    $this->load_includes();
+
     $this->activate();
   }
 
@@ -191,8 +198,47 @@ abstract class WPPluginLoader
   {
   }
 
+  public function is_activated()
+  {
+    return is_plugin_active($this->get_plugin_id());
+  }
+
   public function do_deactivate()
   {
+    $depend_plugins = array();
+    $col = WPPluginLoaderCollection::get_instance();
+    foreach($col->get_loaders() as $loader)
+    {
+      //echo 'LOAD(' . $loader->get_plugin_id() . ') ';
+      foreach($loader->get_dependencies() as $dep)
+      {
+        //echo ' DEP=' . $dep . ' THIS=' . 
+        //  $this->get_plugin_id();
+        if($dep === $this->get_plugin_id())
+        {
+          if($loader->is_activated())
+          {
+            array_push($depend_plugins, 
+                       $loader->get_plugin_name() );
+          }
+        }
+      }
+    }
+    if(!empty($depend_plugins))
+    {
+       echo '<p>die folgenden Plugins (' .  
+              implode(', ', $depend_plugins) . 
+              ') benutzen diesen Plugin. ' .
+              ' Darum kann der Plugin (' .
+              $this->get_plugin_name() . ') ' .
+              'nicht deaktiviert werden<p>'; 
+       echo '<p>Bitte deaktivieren Sie erst ' . 
+            'die andere Plugins</p>';
+       echo '<p><a href="plugins.php">' .
+            'Gehe zurück zu den Plugins-Übersicht</a></p>';
+       exit;
+    }
+
     $this->deactivate();
   }
 
@@ -221,4 +267,34 @@ abstract class WPPluginLoader
 abstract class WPPluginStarter
 {
   public abstract function start();
+}
+
+class WPPluginLoaderCollection
+{
+  private static $instance = null;
+
+  private $_pluginLoaders = array();
+
+  private function __construct()
+  {
+  }
+
+  public static function get_instance()
+  {
+    if (self::$instance == null)
+    {
+      self::$instance = new WPPluginLoaderCollection();
+    }
+    return self::$instance;
+  }
+
+  public function add_loader($pluginLoader)
+  {
+    array_push($this->_pluginLoaders, $pluginLoader);
+  }
+
+  public function get_loaders()
+  {
+    return $this->_pluginLoaders;
+  }
 }
