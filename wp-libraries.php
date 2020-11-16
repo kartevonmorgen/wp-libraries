@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP Libraries (PSR-7 and UI)
-Plugin URI: https://wordpress.org/extend/plugins/wphttp2wplib
+Plugin URI: https://github.com/kartevonmorgen/wp-libraries
 Description: Makes a wrapper araound the WP_HTTP class which is compatible with the PSR-7 Api. Creates a class based Wrapper around the Wordpress Settings API
 Version: 1.0
 Author: Sjoerd Takken
