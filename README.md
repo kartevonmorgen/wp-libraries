@@ -1,4 +1,4 @@
-# Wordpress Libraries
+ # Wordpress Libraries
 
 WP Libraries is a Wordpress Plugin which contains extra helper classes which can be used by other plugins in Wordpress.
 
