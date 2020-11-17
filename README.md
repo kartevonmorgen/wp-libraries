@@ -8,7 +8,7 @@ Following extras are added:
 - Adding functionality to add Metaboxes with custom fields to Posttypes. 
 - Adding an own MVC for creating additional Forms in Wordpress. 
 - Has an API to find the Open Street Map coordinates for an address.
-- Classes for Initiative and Locations.
+- Classes for Initiative and Locations .
 
 
 
