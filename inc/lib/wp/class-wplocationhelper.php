@@ -255,6 +255,19 @@ class WPLocationHelper
     $wpLocation->set_state($this->cleanup($state));
   }
 
+  public function set_country( $wpLocation, $country ) 
+  {
+    switch ($country) 
+    {
+      case 'Deutschland':
+        $wpLocation->set_country_code('DE');
+        break;
+      case 'Germany':
+        $wpLocation->set_country_code('DE');
+        break;
+    }
+  }
+
   public function set_country_code( $wpLocation, $cc ) 
   {
     $wpLocation->set_country_code($this->cleanup($cc));

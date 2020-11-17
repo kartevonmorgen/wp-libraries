@@ -12,6 +12,8 @@ class OsmNominatim
 
   function fill_location($wpLocation)
   {
+    $cache = OsmNominatimCache::get_instance();
+
     $uri = get_option('osm_nominatim_url', self::DEFAULT_URL);
     $uri .= '/search/';
 
@@ -57,6 +59,23 @@ class OsmNominatim
     $uri .= trim($addressUri);
     $uri .= '?format=xml&addressdetails=1';
 
+    //echo 'LOAD' . $uri;
+    if( $cache->exists($uri))
+    {
+      $wpLocCache = $cache->get($uri);
+      $wpLocation->set_street($wpLocCache->get_street());
+      $wpLocation->set_streetnumber(
+        $wpLocCache->get_streetnumber());
+      $wpLocation->set_zip($wpLocCache->get_zip());
+      $wpLocation->set_city($wpLocCache->get_city());
+      $wpLocation->set_country_code(
+        $wpLocCache->get_country_code());
+      $wpLocation->set_lat($wpLocCache->get_lat());
+      $wpLocation->set_lon($wpLocCache->get_lon());
+      //echo 'GET' . $uri;
+      return $wpLocation;
+    }
+    
     $request = new SimpleRequest('get', $uri);
     $response = $this->client->send($request);
     if( $response->getStatusCode() !== 200 )
@@ -65,11 +84,13 @@ class OsmNominatim
     }
 
     $xmlData = $response->getBody();
+
     if( empty($xmlData))
     {
       return $wpLocation;
     }
 
+    
     $xml = simplexml_load_string($xmlData);
     if(empty($xml->children()))
     {
@@ -119,6 +140,8 @@ class OsmNominatim
           $wpLocation->set_lon((string)$val);
         }
       }
+      //echo 'PUT' . $uri;
+      $cache->put($uri, $wpLocation);
       return $wpLocation;
     }
     return $wpLocation;

@@ -58,6 +58,7 @@ class WPLibrariesPluginLoader extends WPPluginLoader
 
     // -- OpenStreetMap Nominatim --
     $this->add_include('/inc/lib/osm/class-osm-nominatim.php' );
+    $this->add_include('/inc/lib/osm/class-osm-nominatim-cache.php' );
 
     // -- UI Tools Metabox --
     $this->add_include('/inc/lib/ui/class-ui-metabox-field.php' );
@@ -90,7 +91,7 @@ class WPLibrariesPluginLoader extends WPPluginLoader
 
   public function start()
   {
-    $this->add_starter( new PSR7AdminControl());
+    $this->add_starter( PSR7AdminControl::get_instance());
   }
 }
 
