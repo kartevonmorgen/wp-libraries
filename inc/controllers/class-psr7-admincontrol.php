@@ -47,19 +47,29 @@ class PSR7AdminControl extends WPPluginStarter
 
 
    
-    $section = $page->add_section('wplib_section_two', 'OSN Nominatm settings');
+    $section = $page->add_section('wplib_section_two', 'OSM Nominatim settings');
     $section->set_description(
-      'Give an url and test with psr7 wrapper around WP_Http ');
+      'OSM Nominatim search the coordinates for an address ');
     $field = $section->add_textfield('osm_nominatim_url', 
                             'OSM Nominatim URL');
     $field->set_defaultvalue(OsmNominatim::DEFAULT_URL);
     $field->set_description('This URL ist used to fill the coordinates of a location, by getting this information over the Open Street Map Nominatim API');
 
-    $section->add_textfield('wplib_uri', 
-                            'Test URL');
+    $section = $page->add_section('wplib_section_three', 'Testing OSM Nominatim');
+    $section->set_description(
+      'Give an address and test this with OSM Nominatim ');
+    
+    $section->add_textfield('osm_nominatim_address', 
+                            'Address');
+    $section->add_textfield('osm_nominatim_zip', 
+                            'Zipcode');
+    $section->add_textfield('osm_nominatim_city', 
+                            'Ciry');
+    $section->add_textfield('osm_nominatim_country', 
+                            'Country');
 
-    $field = new class('wplib_result', 
-                       'Output from Test URL') extends UISettingsTextAreaField
+    $field = new class('osm_nominatim_test_result', 
+                       'Output from Test') extends UISettingsTextAreaField
     {
       public function get_value()
       {
@@ -75,7 +85,16 @@ class PSR7AdminControl extends WPPluginStarter
 
   public function testRequest()
   {
-    $uri = get_option('wplib_uri', 'haha');
+    $uri .= get_option('osm_nominatim_url', '');
+    $uri .= '/search/';
+    $uri .= get_option('osm_nominatim_address', '');
+    $uri .= ' ';
+    $uri .= get_option('osm_nominatim_zip', '');
+    $uri .= ' ';
+    $uri .= get_option('osm_nominatim_city', '');
+    $uri .= ' ';
+    $uri .= get_option('osm_nominatim_country', '');
+    $uri .= '?format=xml&addressdetails=1';
     if(empty($uri))
     {
       return 'No URI found';
@@ -85,7 +104,10 @@ class PSR7AdminControl extends WPPluginStarter
     $client = new WordpressHttpClient();
     $resp = $client->send($req);
 
-    $result = '';
+    $result = 'TEST URI: ';
+    $result .= $uri;
+    $result .= '' . PHP_EOL;
+    $result .= '' . PHP_EOL;
     $result .= $resp->getStatusCode();
     $result .= ' ';
     $result .= $resp->getReasonPhrase();
