@@ -7,7 +7,7 @@ Following extras are added:
 - Creates a class based Wrapper around the Wordpress Settings API
 - Adding functionality to add Metaboxes with custom fields to Posttypes. 
 - Adding an own MVC for creating additional Forms in Wordpress. 
-- Has an API to find the Open Street Map coordinates for an address.
+- Has an API to find the Open Street Map coordinates for an address .
 - Classes for Initiative and Locations.
 
 
