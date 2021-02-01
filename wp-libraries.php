@@ -31,7 +31,10 @@ class WPLibrariesPluginLoader extends WPPluginLoader
 {
   public function init()
   {
-    //Add txt to Image
+    // PHPUtil
+    $this->add_include('/inc/lib/util/class-phpstringutil.php');
+
+    // Add txt to Image
     $this->add_include('/inc/lib/img/tti-text-util.php');
     $this->add_include('/inc/lib/img/max_media_upload.php');
     $this->add_include('/inc/lib/log/class-logresult.php');

@@ -56,7 +56,14 @@ class LogResult
     }
     else
     {
-      $result = new LogResult($value1 === $value2);
+      if(is_string($value1) && is_string($value2))
+      {
+        $result = new LogResult(strcmp(trim($value1), trim($value2)) === 0);
+      }
+      else
+      {
+        $result = new LogResult($value1 === $value2);
+      }
     }
     if($result->is_true())
     {
@@ -65,8 +72,7 @@ class LogResult
     }
     else
     {
-      $result->set_message($prefix . ' is not equal(' . 
-                             $value1 . ', ' . $value2 . ')');
+      $result->set_message($prefix . ' is not equal(' . $value1 . ', ' . $value2 . ')');
     }
     return $result;
   }
