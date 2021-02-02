@@ -34,6 +34,16 @@ class WPLibrariesPluginLoader extends WPPluginLoader
     // PHPUtil
     $this->add_include('/inc/lib/util/class-phpstringutil.php');
 
+    // ICalendar
+    $this->add_include('/inc/lib/icalendar/class-icallogger.php');
+    $this->add_include('/inc/lib/icalendar/class-icaldatehelper.php');
+    $this->add_include('/inc/lib/icalendar/class-icalveventdate.php');
+    $this->add_include('/inc/lib/icalendar/class-icalveventorganizer.php');
+    $this->add_include('/inc/lib/icalendar/class-icalveventtext.php');
+    $this->add_include('/inc/lib/icalendar/class-icalveventrecurringdate.php');
+    $this->add_include('/inc/lib/icalendar/class-icalvevent.php');
+    $this->add_include('/inc/lib/icalendar/class-icalvcalendar.php');
+
     // Add txt to Image
     $this->add_include('/inc/lib/img/tti-text-util.php');
     $this->add_include('/inc/lib/img/max_media_upload.php');
