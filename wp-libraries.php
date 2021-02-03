@@ -37,6 +37,7 @@ class WPLibrariesPluginLoader extends WPPluginLoader
     // ICalendar
     $this->add_include('/inc/lib/icalendar/class-icallogger.php');
     $this->add_include('/inc/lib/icalendar/class-icaldatehelper.php');
+    $this->add_include('/inc/lib/icalendar/class-icalvline.php');
     $this->add_include('/inc/lib/icalendar/class-icalveventdate.php');
     $this->add_include('/inc/lib/icalendar/class-icalveventorganizer.php');
     $this->add_include('/inc/lib/icalendar/class-icalveventtext.php');

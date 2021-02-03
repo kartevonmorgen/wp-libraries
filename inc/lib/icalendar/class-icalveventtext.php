@@ -9,18 +9,19 @@
 class ICalVEventText
 {
   private $logger;
-  private $value;
+  private $vLine;
+
   private $result;
 
-  public function __construct($logger, $value)
+  public function __construct($logger, $vLine)
   {
     $this->logger = $logger;
-    $this->value = $value;
+    $this->vLine = $vLine;
   }
 
-  private function getValue()
+  private function getVLine()
   {
-    return $this->value;
+    return $this->vLine;
   }
 
   private function get_logger()
@@ -40,7 +41,8 @@ class ICalVEventText
 
   public function parse()
   {
-    $value = $this->getValue();
+    $vLine = $this->getVLine();
+    $value = $vLine->get_value();
 
     // Remove the "\," because it is removed by wordpress and then we always get trouble with comparing
     $value = str_replace("\,", ",", $value);
@@ -49,7 +51,5 @@ class ICalVEventText
     $value = str_replace("\\n", "<br>", $value);
     $this->setResult($value);
   }
-
-
 }
 

@@ -32,18 +32,18 @@ class ICalVCalendar
     $this->get_logger()->add_log($log);
   }
 
-  function parse_value($key, $value)
+  function processLine($vLine)
   {
-    switch ($key) 
+    switch ($vLine->get_id()) 
     {
       case 'X-ORGINAL_URL':
-        $this->set_link($value);
+        $this->set_link($vLine->get_value());
         break;
       case 'X-WR-CALNAME':
-        $this->set_name($value);
+        $this->set_name($vLine->get_value());
         break;
       case 'PRODID':
-        $this->set_prodid($value);
+        $this->set_prodid($vLine->get_value());
         break;
     }
   }

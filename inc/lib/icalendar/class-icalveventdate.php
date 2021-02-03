@@ -8,17 +8,17 @@
  */
 class ICalVEventDate
 {
-  private $dateString;
+  private $logger;
+  private $vLine;
+
   private $isDate;
   private $timestamp;
-  private $logger;
   private $dateHelper;
 
-  public function __construct($logger, $key, $dateStr)
+  public function __construct($logger, $vLine)
   {
     $this->logger = $logger;
-    $this->key = $key;
-    $this->dateString = $dateStr;
+    $this->vLine = $vLine;
   }
 
   public function get_logger()
@@ -31,14 +31,9 @@ class ICalVEventDate
     $this->get_logger()->add_log($log);
   }
 
-  public function getKey()
+  public function getVLine()
   {
-    return $this->key;
-  }
-
-  public function getDateString()
-  {
-    return $this->dateString;
+    return $this->vLine;
   }
 
   private function setTimestamp($timestamp)
@@ -64,22 +59,16 @@ class ICalVEventDate
   public function parse()
   {
     $dateHelper = new ICalDateHelper();
-    $key = $this->getKey();
-    $value = $this->getDateString();
+    $vLine = $this->getVLine();
 
-    if(strpos($key, 'VALUE=DATE-TIME') !== false)
-    {
-      $this->setDate(false);
-    }
-    else if(strpos($key, 'VALUE=DATE') !== false)
+    $this->setDate(false);
+    $value = $vLine->get_parameter('VALUE');
+    if($value == 'DATE')
     {
       $this->setDate(true);
-    }
-    else
-    {
-      $this->setDate(false);
-    }
 
+    }
+    $value = $vLine->get_value();
     $ts = $dateHelper->fromiCaltoUnixDateTime($value);
     $this->setTimestamp($ts);
   }

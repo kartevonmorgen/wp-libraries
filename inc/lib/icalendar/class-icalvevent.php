@@ -179,65 +179,60 @@ class ICalVEvent
   }
 
 
-  function parse_value($key, $value)
+  function processLine($vLine)
   {
-    $keys = explode(';', $key);
-    if(empty($keys))
-    {
-      return;
-    }
-
-    $firstpartofkey = reset($keys);
-    switch ($firstpartofkey) 
+    switch ($vLine->get_id()) 
     {
       case 'DTSTART':
-        $vEventDate = new ICalVEventDate($this->get_logger(), $key, $value);
+        $vEventDate = new ICalVEventDate($this->get_logger(), $vLine);
         $vEventDate->parse();
         $this->set_dt_startdate($vEventDate->getTimestamp());
         $this->set_dt_allday($vEventDate->isDate());
         break;
       case 'DTEND':
-        $vEventDate = new ICalVEventDate($this->get_logger(), $key, $value);
+        $vEventDate = new ICalVEventDate($this->get_logger(), $vLine);
         $vEventDate->parse();
         $this->set_dt_enddate($vEventDate->getTimestamp());
         $this->set_dt_allday($vEventDate->isDate());
         break;
       case 'RRULE':
-        $recurring = new ICalVEventRecurringDate($value, $this->get_dt_startdate());
+        $recurring = new ICalVEventRecurringDate($vLine->get_value(), 
+                                                 $this->get_dt_startdate());
         $this->set_recurring(true);
         $this->set_recurring_dates($recurring->getDates());
         break;
       case 'LAST_MODIFIED':
-        $vEventDate = new ICalVEventDate($this->get_logger(), $key, $value);
+        $vEventDate = new ICalVEventDate($this->get_logger(), $vLine);
         $vEventDate->parse();
         $this->set_lastmodified($vEventDate->getTimestamp());
         break;
       case 'CREATED':
-        $vEventDate = new ICalVEventDate($this->get_logger(), $key, $value);
+        $vEventDate = new ICalVEventDate($this->get_logger(), $vLine);
         $vEventDate->parse();
         $this->set_created($vEventDate->getTimestamp());
         break;
       case 'UID':
-        $this->set_uid($value);
+        $this->set_uid($vLine->get_value());
         break;
       case 'SUMMARY':
-        $text = new ICalVEventText($this->get_logger(), $value);
+        $text = new ICalVEventText($this->get_logger(), $vLine);
         $text->parse();
         $this->set_summary($text->getResult());
         break;
       case 'DESCRIPTION':
-        $text = new ICalVEventText($this->get_logger(), $value);
+        $text = new ICalVEventText($this->get_logger(), $vLine);
         $text->parse();
         $this->set_description($text->getResult());
         break;
       case 'URL':
-        $this->set_url($value);
+        $this->set_url($vLine->get_value());
         break;
       case 'LOCATION':
-        $this->set_location($value);
+        $this->set_location($vLine->get_value());
         break;
       case 'ORGANIZER':
-        $vEventOrganizer = new ICalVEventOrganizer($this->get_logger(), $key, $value);
+        $vEventOrganizer = new ICalVEventOrganizer($this->get_logger(), 
+                                                   $vLine);
         $vEventOrganizer->parse();
         $this->set_organizer_name($vEventOrganizer->getName());
         $this->set_organizer_email($vEventOrganizer->getEmail());

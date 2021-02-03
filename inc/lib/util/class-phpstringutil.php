@@ -28,6 +28,70 @@ class PHPStringUtil
     return substr( $haystack, -$length ) === $needle;
   }
 
+  public function findParameters($params)
+  {
+    $result = array();
+
+    do
+    {
+      $pos = $this->findPositionWithoutQuotes($params, ';');
+      if($pos === false)
+      {
+        $param = $params;
+      }
+      else
+      {
+        $param = substr($params, 0, $pos);
+      } 
+
+      $pos2 = $this->findPositionWithoutQuotes($param, '=');
+      if($pos2 !== false)
+      {
+        $paramKey = substr($param, 0, $pos2);
+        $paramValue = substr($param, $pos2 + 1);
+        $result[$paramKey] = $paramValue;
+      }
+
+      $params = substr($keyPart, $pos + 1);
+    }
+    while($pos !== false);
+
+    return $result;
+  }
+
+  
+  public function findPositionWithoutQuotes($string, $searchChar)
+  {
+    $inQuotes = false;
+    //echo 'FIND : ' . $string . ' - ' . $seachChar;
+    for($i = 0; $i < strlen($string); $i++)
+    {
+      //echo 'I . ' . $i . ' = ' . $string[$i] . ' Q=' . $inQuotes;
+      if($string[$i] == '"')
+      {
+        $inQuotes = ! $inQuotes;
+      }
+      else if($string[$i] == $searchChar)
+      {
+        if(!$inQuotes)
+        {
+          return $i;
+        }
+      }
+    }
+    return false;
+  }
+
+  public function remove_quotes($string)
+  {
+    return str_replace('"', '', $string);
+  }
+
+  public function replace_procent_twenty($string)
+  {
+    return str_replace('%20', ' ', $string);
+  }
+
   public function str_split_unicode($str, $l = 0) 
   {
     if ($l > 0) 

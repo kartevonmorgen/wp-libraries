@@ -8,16 +8,16 @@
  */
 class ICalVEventOrganizer
 {
-  private $value;
+  private $logger;
+  private $vLine;
+
   private $email;
   private $name;
-  private $logger;
 
-  public function __construct($logger, $key, $value)
+  public function __construct($logger, $vLine)
   {
     $this->logger = $logger;
-    $this->key = $key;
-    $this->value = $value;
+    $this->vLine = $vLine;
   }
 
   public function get_logger()
@@ -30,14 +30,9 @@ class ICalVEventOrganizer
     $this->get_logger()->add_log($log);
   }
 
-  public function getKey()
+  public function getVLine()
   {
-    return $this->key;
-  }
-
-  public function getValue()
-  {
-    return $this->value;
+    return $this->vLine;
   }
 
   private function setEmail($email)
@@ -62,33 +57,24 @@ class ICalVEventOrganizer
 
   public function parse()
   {
-    $key = $this->getKey();
-    $value = $this->getValue();
+    $vLine = $this->getVLine();
     $su = new PHPStringUtil();
     
-    $pos = strpos($key,'CN=');
-    if($pos !== false)
+    if($vLine->has_parameter('CN'))
     {
-      $name = strstr($key, 'CN=');
-      $name = substr($name, 3);
-      $pos = strpos($key,';', $pos);
-      if($pos !== false)
-      {
-        $name = substr($name, 0, $pos);
-      }
-
-      $name = str_replace('"', '', $name);
-      $name = str_replace('%20', ' ', $name);
+      $name = $vLine->get_parameter('CN');
+      $name = $su->remove_quotes($name);
+      $name = $su->replace_procent_twenty($name);
       $this->setName($name);
     }
     
+    $value = $vLine->get_value();
     if($su->startsWith($value, 'MAILTO:'))
     {
       $email = strstr($value, ':');
       $email = substr($email, 1);
       $this->setEmail($email);
     }
-
   }
 
 }
