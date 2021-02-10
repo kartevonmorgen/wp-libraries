@@ -233,6 +233,13 @@ class ICalVEvent
         $this->set_recurring(true);
         $this->set_recurring_rule($vLine->get_value());
         break;
+      case 'RECURRENCE-ID':
+        $vEventDate = new ICalVEventDate($this->get_logger(), 
+                                         $vLine);
+        $vEventDate->parse();
+        $this->set_recurring(true);
+        $this->set_recurring_dates($vEventDate->getTimestamps());
+        break;
       case 'EXDATE':
         $vEventDate = new ICalVEventDate($this->get_logger(), $vLine);
         $vEventDate->parse();
