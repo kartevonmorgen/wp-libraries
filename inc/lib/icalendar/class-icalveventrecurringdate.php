@@ -8,6 +8,9 @@
  */
 class ICalVEventRecurringDate 
 {
+  var $maxPeriod;
+  var $maxCount = 0;
+
 	/**
 	 * rules string
 	 *
@@ -153,6 +156,7 @@ class ICalVEventRecurringDate
  */
 	function __construct($rules, $startdate, $exdates = array(),$tzid = "UTC")
   {
+    $this->setMaxPeriodInDays(356);
     $this->dateHelper = new ICalDateHelper();
 		if(strlen($rules) > 0){
 			//move exdates to event timezone for comparing with event date
@@ -283,9 +287,24 @@ class ICalVEventRecurringDate
     return $this->dateHelper;
   }
 
-  function getMaxYear()
+  public function setMaxPeriodInDays($days)
   {
-    return 2036;
+    $this->maxPeriod = $days * 24 * 60 * 60;
+  }
+
+  function getMaxPeriod()
+  {
+    return $this->maxPeriod;
+  }
+
+  public function setMaxCount($maxCount)
+  {
+    $this->maxCount = $maxCount;
+  }
+
+  function getMaxCount()
+  {
+    return $this->maxCount;
   }
 	
 /**
@@ -645,10 +664,20 @@ class ICalVEventRecurringDate
  *
  * @return boolean
  */	
-	private function maxDates($rdates){
-		if($this->repeatmode == "c" && count($rdates) >= $this->count)
+	private function maxDates($rdates)
+  {
+		if(($this->getMaxCount() !== 0) && count($rdates) >= $this->getMaxCount())
+    {
+      return true;
+    }
+		else if($this->repeatmode == "c" && count($rdates) >= $this->count)
+    {
 			return true; // exceeded count
-		else if(count($rdates) > 0 && $this->repeatmode == "u" && $rdates[count($rdates) - 1] > $this->until){
+    }
+		else if(count($rdates) > 0 && 
+            $this->repeatmode == "u" && 
+            $rdates[count($rdates) - 1] > $this->until)
+    {
 			return true; //past date
 		}
 		return false;
@@ -750,20 +779,23 @@ class ICalVEventRecurringDate
 				$eventcount++;
 			}
 			if($this->maxDates($rdates))
+      {
 				$done = true;
-	
-			$year = date("Y", $nextdate);
-			if($year > $this->getMaxYear())
+	    }
+
+			if($nextdate > (time() + $this->getMaxPeriod()))
 			{
 				$done = true;
 			}
 			$loopcount++;
-			if($loopcount > $this->getMaxYear()){
+			if($loopcount >= 2036)
+      {
 				$done = true;
 				throw new Exception("Infinite loop detected in getDates()");
 			}
 		}
-		if($this->repeatmode == "u" && $rdates[count($rdates) - 1] > $this->until){
+		if($this->repeatmode == "u" && $rdates[count($rdates) - 1] > $this->until)
+    {
 			// erase last item
 			array_pop($rdates);
 		}

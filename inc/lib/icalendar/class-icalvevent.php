@@ -22,6 +22,7 @@ class ICalVEvent
   private $url;
   private $recurring;
   private $recurring_dates;
+  private $recurring_rule;
 
   function __construct($logger)
   {
@@ -178,6 +179,16 @@ class ICalVEvent
     return $this->recurring_dates;
   }
 
+  function set_recurring_rule($recurring_rule)
+  {
+    $this->recurring_rule = $recurring_rule;
+  }
+
+  function get_recurring_rule()
+  {
+    return $this->recurring_rule;
+  }
+
 
   function processLine($vLine)
   {
@@ -196,10 +207,8 @@ class ICalVEvent
         $this->set_dt_allday($vEventDate->isDate());
         break;
       case 'RRULE':
-        $recurring = new ICalVEventRecurringDate($vLine->get_value(), 
-                                                 $this->get_dt_startdate());
         $this->set_recurring(true);
-        $this->set_recurring_dates($recurring->getDates());
+        $this->set_recurring_rule($vLine->get_value());
         break;
       case 'LAST_MODIFIED':
         $vEventDate = new ICalVEventDate($this->get_logger(), $vLine);
