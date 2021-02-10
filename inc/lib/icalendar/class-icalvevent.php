@@ -21,7 +21,8 @@ class ICalVEvent
   private $organizer_email;
   private $url;
   private $recurring;
-  private $recurring_dates;
+  private $recurring_dates = array();
+  private $recurring_exdates = array();
   private $recurring_rule;
 
   function __construct($logger)
@@ -179,6 +180,28 @@ class ICalVEvent
     return $this->recurring_dates;
   }
 
+  function set_recurring_exdates($recurring_exdates)
+  {
+    $this->recurring_exdates = $recurring_exdates;
+  }
+
+  function get_recurring_exdates()
+  {
+    return $this->recurring_exdates;
+  }
+
+  function is_recurring_exdate($date)
+  {
+    foreach($this->get_recurring_exdates() as $exdate)
+    {
+      if($date === $exdate)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   function set_recurring_rule($recurring_rule)
   {
     $this->recurring_rule = $recurring_rule;
@@ -209,6 +232,12 @@ class ICalVEvent
       case 'RRULE':
         $this->set_recurring(true);
         $this->set_recurring_rule($vLine->get_value());
+        break;
+      case 'EXDATE':
+        $vEventDate = new ICalVEventDate($this->get_logger(), $vLine);
+        $vEventDate->parse();
+        $this->set_recurring_exdates(
+          $vEventDate->getTimestamps());
         break;
       case 'LAST_MODIFIED':
         $vEventDate = new ICalVEventDate($this->get_logger(), $vLine);

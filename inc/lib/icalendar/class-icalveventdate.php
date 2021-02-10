@@ -12,7 +12,7 @@ class ICalVEventDate
   private $vLine;
 
   private $isDate;
-  private $timestamp;
+  private $timestamps = array();
   private $dateHelper;
 
   public function __construct($logger, $vLine)
@@ -36,14 +36,19 @@ class ICalVEventDate
     return $this->vLine;
   }
 
-  private function setTimestamp($timestamp)
+  private function addTimestamp($timestamp)
   {
-    $this->timestamp = $timestamp;
+    array_push( $this->timestamps, $timestamp );
+  }
+
+  public function getTimestamps()
+  {
+    return $this->timestamps;
   }
 
   public function getTimestamp()
   {
-    return $this->timestamp;
+    return reset($this->getTimestamps());
   }
 
   private function setDate($isDate)
@@ -69,8 +74,12 @@ class ICalVEventDate
 
     }
     $value = $vLine->get_value();
-    $ts = $dateHelper->fromiCaltoUnixDateTime($value);
-    $this->setTimestamp($ts);
+    $dateValues = explode(',', $value);
+    foreach($dateValues as $dateValue)
+    {
+      $ts = $dateHelper->fromiCaltoUnixDateTime($dateValue);
+      $this->addTimestamp($ts);
+    }
   }
 
 }
